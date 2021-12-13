@@ -3,4 +3,5 @@ Gustav og Oliver C | 3.i Kerm/It (ajrp) | HCØL
 <br><br>
 ![Time Pilot](https://nintendoeverything.com/wp-content/uploads/time-pilot.jpg)
 ___
-<br><br>
+#### Kilder
+player billede https://www.nicepng.com/maxp/u2q8a9u2r5t4w7e6/ 
