@@ -1,4 +1,4 @@
-class Component extends TimePilotGame {
+class Component {
   float x, y, z, w;
-  PImage img;
+  PImage compImg;
 }
