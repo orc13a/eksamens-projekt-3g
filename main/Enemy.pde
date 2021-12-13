@@ -1,13 +1,9 @@
-class Enemy{
+class Enemy extends Component {
 
-  
-  void startPos(){
-  
+  void startPos() {
   }
-  void spawnEnemy(){
-  
+  void spawnEnemy() {
   }
-  void display(){
-  
+  void display() {
   }
 }

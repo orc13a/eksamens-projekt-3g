@@ -1,12 +1,17 @@
-class Player{
+class Player extends Component {
+  int hpLevel;
 
-  
-  
-  void display(){
-  
+  Player() {
+    
   }
-  
-  void direction(){
-  
+
+  void display() {
+  }
+
+  void direction() {
+  }
+
+  // Laver en spiller
+  void createPlayer() {
   }
 }

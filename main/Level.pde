@@ -1,4 +1,2 @@
-class Level{
-
-
+class Level extends Component {
 }
