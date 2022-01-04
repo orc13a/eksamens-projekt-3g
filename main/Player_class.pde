@@ -3,6 +3,7 @@ class Player extends Component {
 
   float A = 0;
   float angle = 0;
+  float planeSpd; 
   
   PVector center;
   PVector mouse;
@@ -13,6 +14,8 @@ class Player extends Component {
   Player() {
     center = new PVector(width/2, height/2);
     bulletSpd = new PVector();
+    mouse = new PVector();
+    
     createPlayer();
   }
 
@@ -30,7 +33,7 @@ class Player extends Component {
 
   void update() {
     direction();
-
+    
     for (Bullet s : allBullets) {
       s.update();
     }
@@ -43,7 +46,7 @@ class Player extends Component {
   }
 
   void shoot() {
-    if (keyPressed && frameCount % 4 == 0) {
+    if (keyPressed && frameCount % 3 == 0) {
       if (key == ' ') {
          newBullet();
       }

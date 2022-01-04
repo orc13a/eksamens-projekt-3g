@@ -8,7 +8,7 @@ class Bullet extends Component {
   
   void display() {
     fill(0);
-    ellipse(pos.x, pos.y, 10, 10);
+    ellipse(pos.x, pos.y, 5, 5);
   }
   
   void update() {

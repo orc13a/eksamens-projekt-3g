@@ -1,17 +1,23 @@
 class TimePilotGame {
-
   Level currentlevel;
   Player player;
+  
   int score;
 
   boolean showMainmenu = false;
   boolean showGame = true;
+  
+  PImage skyImage;
+  
+  float globalMoveX, globalMoveY;
 
   TimePilotGame() {
     surface.setTitle("Time Pilot"); // Sætter titlen på program vinduet
     frameRate(60);
     
     player = new Player();
+    
+    skyImage = loadImage("sky.jpeg");
   }
 
   void display() {
@@ -34,8 +40,9 @@ class TimePilotGame {
 
   // Køre spillet, placer ting i spillet
   void run() {
+    noCursor();
     clear();
-    background(100);
+    image(skyImage, width / 2, height / 2);
     player.display();
     player.shoot();
   }
