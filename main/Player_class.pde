@@ -43,7 +43,7 @@ class Player extends Component {
   }
 
   void shoot() {
-    if (keyPressed) {
+    if (keyPressed && frameCount % 4 == 0) {
       if (key == ' ') {
          newBullet();
       }
