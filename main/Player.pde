@@ -1,51 +1,62 @@
 class Player extends Component {
   int hpLevel = 100;
-  
+
   float A = 0;
   float angle = 0;
+  
+  PVector center;
+  PVector mouse;
+  PVector bulletSpd;
+
+  ArrayList<Bullet> allBullets = new ArrayList<Bullet>();
 
   Player() {
+    center = new PVector(width/2, height/2);
+    bulletSpd = new PVector();
     createPlayer();
   }
 
   void display() {
-    update();
-    direction();
+    for (Bullet s : allBullets) {
+      s.display();
+    }
+
     pushMatrix();
-      println(degrees(angle));
-      translate(width/2, height/2);
-      rotate(angle + radians(90));
-      image(compImg, 0, 0, 70, 100);
+    translate(width/2, height/2);
+    rotate(angle + radians(90));
+    image(compImg, 0, 0, 70, 100);
     popMatrix();
   }
-  
+
   void update() {
-    //direction();
+    direction();
+
+    for (Bullet s : allBullets) {
+      s.update();
+    }
   }
 
   void direction() {
-    PVector center = new PVector(width/2, height/2);
-    PVector mouse = new PVector(mouseX, mouseY);
-    
+    mouse = new PVector(mouseX, mouseY);
     mouse.sub(center);
     angle = mouse.heading();
-    
-    
-    //stroke(255);
-    //line(width/2, height/2, width/2, height/2 - 100); // Lodret linje
-    //line(width/2, height/2, mouseX, mouseY); // Vandrette linje
-    //line(width/2, height/2 - 100, mouseX, mouseY); // Linje der forbinder de 2
-    
-    //float c = dist(width/2, height/2, width/2, height/2 - 100);
-    //float b = dist(width/2, height/2, mouseX, mouseY);
-    //float a = dist(width/2, height/2 - 100, mouseX, mouseY);
-    
-    //angle = cos(((c*c)+(b*b)-(a*a))/2*b*c);
-    //println(angle);
+  }
+
+  void shoot() {
+    if (keyPressed) {
+      if (key == ' ') {
+         newBullet();
+      }
+    }
   }
   
-  void shoot() {
+  void newBullet() {    
+    bulletSpd.set(mouseX, mouseY, 0);
+    bulletSpd.sub(center);
+    bulletSpd.setMag(5);
     
+    Bullet b = new Bullet(center, bulletSpd);
+    allBullets.add(b);
   }
 
   // Laver en spiller

@@ -37,14 +37,17 @@ class TimePilotGame {
     clear();
     background(100);
     player.display();
+    player.shoot();
   }
 
   // Opdatere spillet ting til deres nye position
   void update() {
+    player.update();
   }
 
   // Kigger på hvilke taster der bliver klikket 
   void key() {
+    //player.shoot();
   }
 
   void mouse() {
