@@ -1,31 +1,28 @@
 class Level extends Component {
   PImage skyImage;
+  
+  int level = 1;
+  
+  ArrayList<Enemy> allEnemys = new ArrayList<Enemy>();
 
   Level() {
     skyImage = loadImage("skyRepeat.jpeg");
     pos = new PVector(0, 0);
+    addEnemy();
   }
 
   void display() {
     pushMatrix();
       translate(pos.x, pos.y);
       createBackground();
+      for (Enemy e : allEnemys) {
+        e.display();
+      }
     popMatrix();
   }
   
-  // Opdatere verdens placering alt efter spilleren
   void update(Player p) {
-    PVector a = new PVector(mouseX, mouseY); // Vector fra 0,0 til musen
-    a.sub(p.center); // trækker vektorne fra hinanden og skaber en vektor fra centrum af skærmen til musen.
-    a.normalize(); // Laver a vektoren om til en enhedsvektor med længden 1
-    
-    // Så bruger vi vektoren i spillerens koordinatssystem
-    pushMatrix();
-      translate(p.center.x, p.center.y);
-      // Flytter verden modsat af hvor spilleren flyver hen
-      pos.x -= a.x * p.planeSpd;
-      pos.y -= a.y * p.planeSpd;
-    popMatrix();
+    updateWorld(p);
   }
   
   // Laver baggrunds himmlen
@@ -42,5 +39,25 @@ class Level extends Component {
         }
       }
     popMatrix();
+  }
+  
+  // Opdatere verdens placering alt efter spilleren
+  void updateWorld(Player p) {
+    PVector a = new PVector(mouseX, mouseY); // Vector fra 0,0 til musen
+    a.sub(p.center); // trækker vektorne fra hinanden og skaber en vektor fra centrum af skærmen til musen.
+    a.normalize(); // Laver a vektoren om til en enhedsvektor med længden 1
+    
+    // Så bruger vi vektoren i spillerens koordinatssystem
+    pushMatrix();
+      translate(p.center.x, p.center.y);
+      // Flytter verden modsat af hvor spilleren flyver hen
+      pos.x -= a.x * p.planeSpd;
+      pos.y -= a.y * p.planeSpd;
+    popMatrix();
+  }
+  
+  void addEnemy() {
+    Enemy e = new PropPlane();
+    allEnemys.add(e);
   }
 }
