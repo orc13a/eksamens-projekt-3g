@@ -1,5 +1,5 @@
 class TimePilotGame {
-  Level currentlevel;
+  Level currentLevel;
   Player player;
   
   int score;
@@ -7,17 +7,14 @@ class TimePilotGame {
   boolean showMainmenu = false;
   boolean showGame = true;
   
-  PImage skyImage;
-  
   float globalMoveX, globalMoveY;
 
   TimePilotGame() {
     surface.setTitle("Time Pilot"); // Sætter titlen på program vinduet
     frameRate(60);
     
+    currentLevel = new Level();
     player = new Player();
-    
-    skyImage = loadImage("sky.jpeg");
   }
 
   void display() {
@@ -32,6 +29,10 @@ class TimePilotGame {
     } else {
       this.mainmenu();
     }
+    
+    textAlign(LEFT);
+    rectMode(CORNER);
+    imageMode(CORNER);
   }
 
   // Tegner main menu
@@ -40,10 +41,14 @@ class TimePilotGame {
 
   // Køre spillet, placer ting i spillet
   void run() {
-    noCursor();
+    //noCursor();
     clear();
-    image(skyImage, width / 2, height / 2);
+    currentLevel.display();
+    
     player.display();
+    
+    currentLevel.update(player);
+    
     player.shoot();
   }
 

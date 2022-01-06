@@ -3,7 +3,7 @@ class Player extends Component {
 
   float A = 0;
   float angle = 0;
-  float planeSpd; 
+  float planeSpd = 5; 
   
   PVector center;
   PVector mouse;
