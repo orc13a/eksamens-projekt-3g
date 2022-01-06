@@ -7,7 +7,7 @@ class Bullet extends Component {
   }
   
   void display() {
-    fill(0);
+    fill(255);
     ellipse(pos.x, pos.y, 5, 5);
   }
   
@@ -15,6 +15,8 @@ class Bullet extends Component {
     pos.add(spd);
   }
   
+  // Sætter data fra vectore til pos og spd
+  // Se i Player class i newBullet()
   void pSet(PVector loc_, PVector vel_) {
     pos.set(loc_);
     spd.set(vel_);

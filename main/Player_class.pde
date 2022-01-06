@@ -5,10 +5,11 @@ class Player extends Component {
   float angle = 0;
   float planeSpd = 5; 
   
-  PVector center;
+  PVector center; // Center er der hvor spilleren (flyet) er på skærmen
   PVector mouse;
-  PVector bulletSpd;
+  PVector bulletSpd; // Bullet speed
 
+  // Holder alle skudene
   ArrayList<Bullet> allBullets = new ArrayList<Bullet>();
 
   Player() {
@@ -20,43 +21,49 @@ class Player extends Component {
   }
 
   void display() {
+    // Tegn alle skudene
     for (Bullet s : allBullets) {
       s.display();
     }
-
+  
+    // Ryk spillerns koordinatssystem ind så origo bliver til midten af vinduet
     pushMatrix();
-    translate(width/2, height/2);
-    rotate(angle + radians(90));
-    image(compImg, 0, 0, 70, 100);
+      translate(width/2, height/2);
+      rotate(angle + radians(90));
+      image(compImg, 0, 0, 40, 60); // compImg -> Component class 
     popMatrix();
   }
 
   void update() {
     direction();
     
+    // Update alle skudene
     for (Bullet s : allBullets) {
       s.update();
     }
   }
 
+  // Udregner vejen spilleren kigger med musen
   void direction() {
     mouse = new PVector(mouseX, mouseY);
     mouse.sub(center);
     angle = mouse.heading();
   }
 
+  // Til at skyde
   void shoot() {
-    if (keyPressed && frameCount % 3 == 0) {
+    if (keyPressed && frameCount % 7 == 0) {
       if (key == ' ') {
          newBullet();
       }
     }
   }
   
+  // Opret nyt skud
   void newBullet() {    
     bulletSpd.set(mouseX, mouseY, 0);
-    bulletSpd.sub(center);
-    bulletSpd.setMag(5);
+    bulletSpd.sub(center); // trækker vektorne fra hinanden og skaber en vektor fra centrum af skærmen til musen.
+    bulletSpd.setMag(18); // Sætter størrelsen af den vektoren og aka skudets hastighed
     
     Bullet b = new Bullet(center, bulletSpd);
     allBullets.add(b);

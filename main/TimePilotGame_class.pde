@@ -6,8 +6,6 @@ class TimePilotGame {
 
   boolean showMainmenu = false;
   boolean showGame = true;
-  
-  float globalMoveX, globalMoveY;
 
   TimePilotGame() {
     surface.setTitle("Time Pilot"); // Sætter titlen på program vinduet
@@ -18,11 +16,12 @@ class TimePilotGame {
   }
 
   void display() {
+    // Spillet bruger dem her
     textAlign(CENTER);
     rectMode(CENTER);
     imageMode(CENTER);
     
-    // Hvis spillet hvis man ikke skal se main menu
+    // Hvis spillet køre skal man ikke se main menu
     if (!showMainmenu && showGame) {
       this.run();
       this.update();
@@ -30,6 +29,7 @@ class TimePilotGame {
       this.mainmenu();
     }
     
+    // Sætter til default
     textAlign(LEFT);
     rectMode(CORNER);
     imageMode(CORNER);
@@ -41,14 +41,12 @@ class TimePilotGame {
 
   // Køre spillet, placer ting i spillet
   void run() {
-    //noCursor();
+    noCursor();
     clear();
+    
     currentLevel.display();
-    
     player.display();
-    
     currentLevel.update(player);
-    
     player.shoot();
   }
 
