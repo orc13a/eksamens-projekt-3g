@@ -13,6 +13,7 @@ class TimePilotGame {
     
     currentLevel = new Level();
     player = new Player();
+    currentLevel.currentPlayer = player;
   }
 
   void display() {

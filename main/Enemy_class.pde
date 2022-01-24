@@ -1,6 +1,10 @@
 class Enemy extends Component {
+  Player currentPlayer;
   
-  Enemy(PImage img) {
+  float angle = 0;
+  
+  Enemy(Player player, PImage img) {
+    currentPlayer = currentPlayer;
     compImg = img;
     pos = new PVector(0, 0);
     vel = new PVector();
@@ -11,6 +15,14 @@ class Enemy extends Component {
   }
   
   void update() {
+    direction();
+  }
+  
+  void direction() {
+    PVector pPos = currentPlayer.pos; 
+    //mouse = new PVector(mouseX, mouseY);
+    //mouse.sub(center);
+    //angle = mouse.heading();
     
   }
   

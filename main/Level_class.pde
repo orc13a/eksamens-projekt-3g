@@ -1,6 +1,8 @@
 class Level extends Component {
   PImage skyImage;
   
+  Player currentPlayer;
+  
   int level = 1;
   
   ArrayList<Enemy> allEnemys = new ArrayList<Enemy>();
@@ -57,7 +59,7 @@ class Level extends Component {
   }
   
   void addEnemy() {
-    Enemy e = new PropPlane();
+    Enemy e = new PropPlane(currentPlayer);
     allEnemys.add(e);
   }
 }

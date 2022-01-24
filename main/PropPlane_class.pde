@@ -1,6 +1,6 @@
 class PropPlane extends Enemy {
-  PropPlane() {
-    super(loadImage("enemyPropPlane.png"));
+  PropPlane(Player player) {
+    super(player, loadImage("enemyPropPlane.png"));
   }
   
   void display() {
