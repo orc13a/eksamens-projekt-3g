@@ -7,14 +7,13 @@ class PropPlane extends Enemy {
   void display() {
     pushMatrix();
       translate(this.pos.x, this.pos.y);
-      rotate(angle + radians(90));
+      if (hasBeenFreezed = false) {
+        rotate(angle + radians(90));
+      } else {
+        
+      }
       image(compImg, 0, 0, 50, 50);
     popMatrix();
-  }
-  
-  void follow(PVector target) {
-    pos.x += target.x * moveSpd.x;
-    pos.y += target.y * moveSpd.y;
   }
   
   void shoot() {
