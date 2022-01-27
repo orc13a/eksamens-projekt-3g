@@ -1,14 +1,20 @@
 class PropPlane extends Enemy {
-  PropPlane(Player player) {
-    super(player, loadImage("enemyPropPlane.png"));
+  PropPlane(Player player, Level level) {
+    super(player, level, loadImage("enemyPropPlane.png"));
+    moveSpd = new PVector(3, 3);
   }
   
   void display() {
-    image(compImg, 10, 10, 50, 50);
+    pushMatrix();
+      translate(this.pos.x, this.pos.y);
+      rotate(angle + radians(90));
+      image(compImg, 0, 0, 50, 50);
+    popMatrix();
   }
   
-  void update() {
-    
+  void follow(PVector target) {
+    pos.x += target.x * moveSpd.x;
+    pos.y += target.y * moveSpd.y;
   }
   
   void shoot() {

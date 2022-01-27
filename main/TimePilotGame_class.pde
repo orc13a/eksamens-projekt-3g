@@ -11,9 +11,9 @@ class TimePilotGame {
     surface.setTitle("Time Pilot"); // Sætter titlen på program vinduet
     frameRate(60);
     
-    currentLevel = new Level();
     player = new Player();
-    currentLevel.currentPlayer = player;
+    currentLevel = new Level(player);
+    //currentLevel.currentPlayer = player;
   }
 
   void display() {

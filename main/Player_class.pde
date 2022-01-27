@@ -28,9 +28,9 @@ class Player extends Component {
 
     // Ryk spillerns koordinatssystem ind så origo bliver til midten af vinduet
     pushMatrix();
-    translate(width/2, height/2);
-    rotate(angle + radians(90));
-    image(compImg, 0, 0, 40, 60); // compImg -> Component class
+      translate(width/2, height/2);
+      rotate(angle + radians(90));
+      image(compImg, 0, 0, 40, 60); // compImg -> Component class
     popMatrix();
   }
 
