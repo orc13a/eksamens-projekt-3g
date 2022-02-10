@@ -9,6 +9,7 @@ class Enemy extends Component {
 
   PVector targetSaved = new PVector(0, 0);
   PVector moveSpd = new PVector(0, 0);
+  PVector newH = new PVector(0,0);
 
   Enemy(Player player, Level level, PImage img) {
     currentPlayer = player;
@@ -22,21 +23,26 @@ class Enemy extends Component {
   }
 
   void update() {
+    turn();
     if (isToCloseToPlayerCheck() == true && hasBeenFreezed == false) {
       hasBeenFreezed = true;
     }
 
     if (isToCloseToPlayerCheck() == true && hasBeenFreezed == true) {
-      //PVector p = new PVector(-currentLevel.pos.x, -currentLevel.pos.y);
-      //p.sub(pos);
-      //p.normalize();
-      //targetSaved = p;
       movement(targetSaved);
-      //hasBeenFreezed = false;
-    } else {
-      if (isToCloseToPlayerCheck() == false && hasBeenFreezed == true) {
-        
-      }
+    }
+
+    if (isToCloseToPlayerCheck() == false && hasBeenFreezed == true) {
+      //if (angle != targetAngle) {  
+        //movement(targetSaved);
+        //turn();
+      //}
+      //else {
+      //  hasBeenFreezed = false;
+      //}
+    }
+
+    if (isToCloseToPlayerCheck() == false && hasBeenFreezed == false) {
       direction();
     }
   }
@@ -85,8 +91,33 @@ class Enemy extends Component {
   }
 
   void turn() {
-    if (hasBeenFreezed == true) {
-    }
+    // translate(pos.x, pos.y);
+    
+    // Spillerens pos
+    PVector p = new PVector(-currentLevel.pos.x, -currentLevel.pos.y);
+    // Enemy heading
+    PVector h = new PVector(pos.x, pos.y);
+    h.mult(-3);
+    h = newH;
+   
+    
+    movement(targetSaved);
+   
+    circle(newH.x, newH.y, 10);
+    
+    //if (angle > targetAngle) {
+    //  angle -= radians(moveSpd.x);
+    //}
+    //if (angle < targetAngle) {
+    //  angle += radians(moveSpd.x);
+    //}
+  }
+
+  void getTargetAngle() {
+    PVector p = new PVector(-currentLevel.pos.x, -currentLevel.pos.y);
+    p.sub(pos);
+    p.normalize();
+    targetAngle = p.heading();
   }
 
   void shoot() {
