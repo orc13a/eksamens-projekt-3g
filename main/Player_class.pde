@@ -3,7 +3,8 @@ class Player extends Component {
 
   float A = 0;
   float angle = 0;
-  float planeSpd = 5; 
+  float planeSpd = 5;
+  float collisionRadius = 60;
 
   PVector center; // Center er der hvor spilleren (flyet) er på skærmen
   PVector mouse;
@@ -81,5 +82,9 @@ class Player extends Component {
   // Laver en spiller
   void createPlayer() {
     compImg = loadImage("player/player-u.png");
+  }
+  
+  void gotHit() {
+    
   }
 }

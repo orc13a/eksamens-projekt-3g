@@ -6,18 +6,19 @@ class Level extends Component {
   int level = 1;
 
   ArrayList<Enemy> allEnemys = new ArrayList<Enemy>();
+  ArrayList<Enemy> allEnemysRemove = new ArrayList<Enemy>();
 
   Level() {
     skyImage = loadImage("skyRepeat.jpeg");
     pos = new PVector(0, 0);
-    addEnemy();
+    //addEnemy();
   }
 
   Level(Player p) {
     currentPlayer = p;
     skyImage = loadImage("skyRepeat.jpeg");
     pos = new PVector(0, 0);
-    addEnemy();
+    //addEnemy();
   }
 
   void display() {
@@ -26,11 +27,23 @@ class Level extends Component {
     translate(pos.x, pos.y); // Flytter verden i for hold til spilleren
 
     createBackground();
+    
+    allEnemys.removeAll(allEnemysRemove);
+    
     for (Enemy e : allEnemys) {
+      //circle(e.pos.x, e.pos.y, 75);
+      //println(e.pos);
       e.display();
     }
+    
+    println(allEnemys.size());
 
-    //circle(-pos.x, -pos.y, 10);
+    //circle(0, 0, 10);
+
+    //translate(-pos.x, -pos.y);
+    //println(pos);
+    //println('-');
+    //circle(0, 0, 100);
     popMatrix();
   }
 
@@ -39,13 +52,17 @@ class Level extends Component {
     //for (Enemy e : allEnemys) {
     //  e.update();
     //}
+
+    addEnemys();
+
     pushMatrix();
     translate(width/2, height/2); // Origo til midten af vinduet
     translate(pos.x, pos.y); // Flytter verden i for hold til spilleren
 
-      for (Enemy e : allEnemys) {
-        e.update();
-      }
+    for (Enemy e : allEnemys) {
+      e.collision();
+      e.update();
+    }
     popMatrix();
   }
 
@@ -80,8 +97,28 @@ class Level extends Component {
     popMatrix();
   }
 
-  void addEnemy() {
-    Enemy e = new PropPlane(currentPlayer, this);
-    allEnemys.add(e);
+  void addEnemys() {
+    int maxEnemyes = int(level * 10);
+
+    if (allEnemys.size() <= maxEnemyes && frameCount % 25 == 0) {
+      for (int i = 0; i <= maxEnemyes; i++) {
+        Enemy e = new PropPlane(currentPlayer, this);
+        allEnemys.add(e);
+      }
+    }
+  }
+
+  void removeEnemy(Enemy e) {
+    //if (allEnemys.size() > 0) {
+    //  int index = allEnemys.indexOf(e);
+      
+    //  ArrayList<Enemy> toRemove = new ArrayList<Enemy>();
+    //  for (String str : allEnemys) {
+    //    if (someCondition) {
+    //      toRemove.add(str);
+    //    }
+    //  }
+    //  myArrayList.removeAll(toRemove);
+    //}
   }
 }

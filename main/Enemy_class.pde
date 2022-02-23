@@ -4,18 +4,20 @@ class Enemy extends Component {
 
   float angle = 0;
   float targetAngle = 0;
+  float freezZoneRadius = random(250, 500);
+  float collisionRadius = 0;
 
   boolean hasBeenFreezed = false;
 
   PVector targetSaved = new PVector(0, 0);
   PVector moveSpd = new PVector(0, 0);
-  PVector newH = new PVector(0,0);
+  PVector newH = new PVector(0, 0);
 
   Enemy(Player player, Level level, PImage img) {
     currentPlayer = player;
     currentLevel = level;
     compImg = img;
-    pos = new PVector(200, 200);
+    pos = new PVector(getStartPosX(), getStartPosY());
     vel = new PVector();
   }
 
@@ -36,8 +38,7 @@ class Enemy extends Component {
       if (angle != targetAngle) {  
         movement(targetSaved);
         turn();
-      }
-      else {
+      } else {
         hasBeenFreezed = false;
       }
     }
@@ -83,7 +84,7 @@ class Enemy extends Component {
   boolean isToCloseToPlayerCheck() {
     float distToPlayer = dist(this.pos.x, this.pos.y, -currentLevel.pos.x, -currentLevel.pos.y);
 
-    if (distToPlayer <= 150) {
+    if (distToPlayer <= freezZoneRadius) {
       return true;
     } else {
       return false;
@@ -92,19 +93,19 @@ class Enemy extends Component {
 
   void turn() {
     // translate(pos.x, pos.y);
-    
+
     // Spillerens pos
     //PVector p = new PVector(-currentLevel.pos.x, -currentLevel.pos.y);
     // Enemy heading
     //PVector h = new PVector(pos.x, pos.y);
     //h.mult(-3);
     //h = newH;
-   
-    
+
+
     //movement(targetSaved);
-   
+
     //circle(newH.x, newH.y, 10);
-    
+
     if (angle > targetAngle) {
       angle -= radians(moveSpd.x);
     }
@@ -126,5 +127,34 @@ class Enemy extends Component {
   void movement(PVector target) {
     this.pos.x += target.x * moveSpd.x;
     this.pos.y += target.y * moveSpd.y;
+  }
+
+  float getStartPosX() {
+    float x1 = random(-width, -width - 100);
+    float x2 = random(width, width + 100);
+
+    int picked = int(random(0, 2));
+
+    return picked == 0 ? x1 : x2;
+  }
+
+  float getStartPosY() {
+    float y1 = random(-height, -height - 100);
+    float y2 = random(height, height + 100);
+
+    int picked = int(random(0, 2));
+
+    return picked == 0 ? y1 : y2;
+  }
+
+  void collision() {
+    //line(this.pos.x, this.pos.y, -currentLevel.pos.x, -currentLevel.pos.y);
+
+    float d = dist(this.pos.x, this.pos.y, -currentLevel.pos.x, -currentLevel.pos.y);
+
+    if (d < collisionRadius || d < currentPlayer.collisionRadius) {
+      currentLevel.allEnemysRemove.add(this);
+      currentPlayer.gotHit();
+    }
   }
 }

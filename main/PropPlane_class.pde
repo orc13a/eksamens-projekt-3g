@@ -2,6 +2,7 @@ class PropPlane extends Enemy {
   PropPlane(Player player, Level level) {
     super(player, level, loadImage("enemyPropPlane.png"));
     moveSpd = new PVector(3, 3);
+    collisionRadius = 55;
   }
   
   void display() {
