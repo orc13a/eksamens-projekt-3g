@@ -33,13 +33,13 @@ class Enemy extends Component {
     }
 
     if (isToCloseToPlayerCheck() == false && hasBeenFreezed == true) {
-      //if (angle != targetAngle) {  
-        //movement(targetSaved);
-        //turn();
-      //}
-      //else {
-      //  hasBeenFreezed = false;
-      //}
+      if (angle != targetAngle) {  
+        movement(targetSaved);
+        turn();
+      }
+      else {
+        hasBeenFreezed = false;
+      }
     }
 
     if (isToCloseToPlayerCheck() == false && hasBeenFreezed == false) {
@@ -94,23 +94,23 @@ class Enemy extends Component {
     // translate(pos.x, pos.y);
     
     // Spillerens pos
-    PVector p = new PVector(-currentLevel.pos.x, -currentLevel.pos.y);
+    //PVector p = new PVector(-currentLevel.pos.x, -currentLevel.pos.y);
     // Enemy heading
-    PVector h = new PVector(pos.x, pos.y);
-    h.mult(-3);
-    h = newH;
+    //PVector h = new PVector(pos.x, pos.y);
+    //h.mult(-3);
+    //h = newH;
    
     
-    movement(targetSaved);
+    //movement(targetSaved);
    
-    circle(newH.x, newH.y, 10);
+    //circle(newH.x, newH.y, 10);
     
-    //if (angle > targetAngle) {
-    //  angle -= radians(moveSpd.x);
-    //}
-    //if (angle < targetAngle) {
-    //  angle += radians(moveSpd.x);
-    //}
+    if (angle > targetAngle) {
+      angle -= radians(moveSpd.x);
+    }
+    if (angle < targetAngle) {
+      angle += radians(moveSpd.x);
+    }
   }
 
   void getTargetAngle() {
