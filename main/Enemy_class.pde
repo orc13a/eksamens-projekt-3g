@@ -157,4 +157,8 @@ class Enemy extends Component {
       currentPlayer.gotHit();
     }
   }
+  
+  void bulletCollion() {
+    
+  }
 }

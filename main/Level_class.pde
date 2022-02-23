@@ -35,8 +35,6 @@ class Level extends Component {
       //println(e.pos);
       e.display();
     }
-    
-    println(allEnemys.size());
 
     //circle(0, 0, 10);
 
@@ -50,7 +48,7 @@ class Level extends Component {
   void update(Player p) {
     updateWorld(p);
     //for (Enemy e : allEnemys) {
-    //  e.update();
+    //  e.bulletCollion();
     //}
 
     addEnemys();
@@ -61,6 +59,7 @@ class Level extends Component {
 
     for (Enemy e : allEnemys) {
       e.collision();
+      e.bulletCollion();
       e.update();
     }
     popMatrix();
