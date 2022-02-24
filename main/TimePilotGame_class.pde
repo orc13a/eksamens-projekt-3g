@@ -6,6 +6,8 @@ class TimePilotGame {
 
   boolean showMainmenu = false;
   boolean showGame = true;
+  
+  PFont pressStart2D; 
 
   TimePilotGame() {
     surface.setTitle("Time Pilot"); // Sætter titlen på program vinduet
@@ -14,13 +16,17 @@ class TimePilotGame {
     player = new Player();
     currentLevel = new Level(player);
     //currentLevel.currentPlayer = player;
+    
+    pressStart2D = createFont("PressStart2P-Regular.ttf", 12);
   }
 
   void display() {
     // Spillet bruger dem her
-    textAlign(CENTER);
+    textAlign(LEFT);
     rectMode(CENTER);
     imageMode(CENTER);
+    
+    textFont(pressStart2D);
     
     // Hvis spillet køre skal man ikke se main menu
     if (!showMainmenu && showGame) {

@@ -15,11 +15,12 @@ class PropPlane extends Enemy {
       translate(this.pos.x, this.pos.y);
       rotate(angle + radians(90));
       image(compImg, 0, 0, 50, 50);
+      //circle(0, -100, 10);
     popMatrix();
   }
   
   void shoot() {
-    newBullet();
+    //newBullet();
   }
   
   void movement() {

@@ -43,6 +43,18 @@ class Level extends Component {
     //println('-');
     //circle(0, 0, 100);
     popMatrix();
+    
+    fill(0);
+    rect((width/2), 55, width, 110);
+    fill(255);
+    text("SCORE: 000000", 20, 30);
+    text("HIGHSCORE", width/2 - 55, 30);
+    text("000000", width/2 - 37, 55);
+    text("HP: III", 20, 90);
+    text("LEVEL: 1", width - 115, 90);
+    
+    fill(0);
+    rect((width/2), height - 50, width, 100);
   }
 
   void update(Player p) {

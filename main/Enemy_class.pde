@@ -172,6 +172,6 @@ class Enemy extends Component {
   }
   
   void shoot() {
-    newBullet();
+    
   }
 }
