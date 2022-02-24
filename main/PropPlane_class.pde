@@ -6,6 +6,11 @@ class PropPlane extends Enemy {
   }
   
   void display() {
+    // Tegn alle skudene
+    for (Bullet s : allBullets) {
+      s.display();
+    }
+    
     pushMatrix();
       translate(this.pos.x, this.pos.y);
       rotate(angle + radians(90));
@@ -14,7 +19,7 @@ class PropPlane extends Enemy {
   }
   
   void shoot() {
-    
+    newBullet();
   }
   
   void movement() {

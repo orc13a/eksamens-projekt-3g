@@ -12,6 +12,9 @@ class Enemy extends Component {
   PVector targetSaved = new PVector(0, 0);
   PVector moveSpd = new PVector(0, 0);
   PVector newH = new PVector(0, 0);
+  PVector bulletSpd; // Bullet speed
+  
+  ArrayList<Bullet> allBullets = new ArrayList<Bullet>();
 
   Enemy(Player player, Level level, PImage img) {
     currentPlayer = player;
@@ -19,6 +22,7 @@ class Enemy extends Component {
     compImg = img;
     pos = new PVector(getStartPosX(), getStartPosY());
     vel = new PVector();
+    bulletSpd = new PVector();
   }
 
   void display() {
@@ -26,6 +30,8 @@ class Enemy extends Component {
 
   void update() {
     turn();
+    shoot();
+    
     if (isToCloseToPlayerCheck() == true && hasBeenFreezed == false) {
       hasBeenFreezed = true;
     }
@@ -46,18 +52,21 @@ class Enemy extends Component {
     if (isToCloseToPlayerCheck() == false && hasBeenFreezed == false) {
       direction();
     }
+    
+    for (Bullet s : allBullets) {
+      s.update();
+    }
+    
+    for (int i = 0; i < allBullets.size(); i++) {
+      Bullet b = allBullets.get(i);
+      float d = dist(pos.x, pos.y, b.pos.x, b.pos.y);
+      if (d > 100) {
+        allBullets.remove(i);
+      }
+    }
   }
 
   void direction() {
-    //if (isToCloseToPlayerCheck() == false) {
-    //  PVector p = new PVector(-currentLevel.pos.x, -currentLevel.pos.y);
-    //  p.sub(pos);
-    //  p.normalize();
-    //  targetSaved = p;
-    //  movement(p);
-    //  angle = p.heading();
-    //}
-
     PVector p = new PVector(-currentLevel.pos.x, -currentLevel.pos.y);
     p.sub(pos);
     p.normalize();
@@ -67,18 +76,6 @@ class Enemy extends Component {
     if (hasBeenFreezed == false) {
       angle = targetAngle;
     }
-
-    //if (isToCloseToPlayerCheck() == false) {
-    //PVector p = new PVector(-currentLevel.pos.x, -currentLevel.pos.y);
-    //p.sub(pos);
-    //p.normalize();
-    //targetSaved = p;
-    //movement(p);
-    //angle = p.heading();
-    //} else {
-    //  hasBeenFreezed = true;
-    //  movement(targetSaved);
-    //}
   }
 
   boolean isToCloseToPlayerCheck() {
@@ -92,20 +89,6 @@ class Enemy extends Component {
   }
 
   void turn() {
-    // translate(pos.x, pos.y);
-
-    // Spillerens pos
-    //PVector p = new PVector(-currentLevel.pos.x, -currentLevel.pos.y);
-    // Enemy heading
-    //PVector h = new PVector(pos.x, pos.y);
-    //h.mult(-3);
-    //h = newH;
-
-
-    //movement(targetSaved);
-
-    //circle(newH.x, newH.y, 10);
-
     if (angle > targetAngle) {
       angle -= radians(moveSpd.x);
     }
@@ -119,9 +102,6 @@ class Enemy extends Component {
     p.sub(pos);
     p.normalize();
     targetAngle = p.heading();
-  }
-
-  void shoot() {
   }
 
   void movement(PVector target) {
@@ -175,9 +155,23 @@ class Enemy extends Component {
       if (d < collisionRadius) {
         currentLevel.allEnemysRemove.add(this);
         currentPlayer.allBulletsRemove.add(b);
+        break;
       }
     }
     
     popMatrix();
+  }
+  
+  void newBullet() {
+    bulletSpd.set(targetSaved.x, targetSaved.y, 0);
+    bulletSpd.sub(pos); // trækker vektorne fra hinanden og skaber en vektor fra centrum af skærmen til musen.
+    bulletSpd.setMag(18); // Sætter størrelsen af den vektoren og aka skudets hastighed
+
+    Bullet b = new Bullet(pos, bulletSpd);
+    allBullets.add(b);
+  }
+  
+  void shoot() {
+    newBullet();
   }
 }

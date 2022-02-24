@@ -78,7 +78,7 @@ class Player extends Component {
     bulletSpd.sub(center); // trækker vektorne fra hinanden og skaber en vektor fra centrum af skærmen til musen.
     bulletSpd.setMag(18); // Sætter størrelsen af den vektoren og aka skudets hastighed
 
-    Bullet b = new Bullet(center, bulletSpd, this);
+    Bullet b = new Bullet(center, bulletSpd);
     allBullets.add(b);
   }
 

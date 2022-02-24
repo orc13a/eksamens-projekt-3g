@@ -1,5 +1,5 @@
 class Bullet extends Component { 
-  Bullet(PVector loc_, PVector vel_, Player p) {
+  Bullet(PVector loc_, PVector vel_) {
     pos = new PVector();
     spd = new PVector();
     
