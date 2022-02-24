@@ -159,6 +159,25 @@ class Enemy extends Component {
   }
   
   void bulletCollion() {
+    PVector savedPosE = new PVector(this.pos.x, this.pos.y);
     
+    pushMatrix();
+    translate(-(width/2), -(height/2));
+    translate(-currentLevel.pos.x, -currentLevel.pos.y);  
+    
+    for (Bullet b : currentPlayer.allBullets) {
+      savedPosE.x += (width/2) + currentLevel.pos.x;
+      savedPosE.y += (height/2) + currentLevel.pos.y;
+      
+      //line(savedPosE.x, savedPosE.y, b.pos.x, b.pos.y);
+      float d = dist(savedPosE.x, savedPosE.y, b.pos.x, b.pos.y);
+      
+      if (d < collisionRadius) {
+        currentLevel.allEnemysRemove.add(this);
+        currentPlayer.allBulletsRemove.add(b);
+      }
+    }
+    
+    popMatrix();
   }
 }

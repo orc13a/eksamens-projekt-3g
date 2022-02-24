@@ -58,8 +58,8 @@ class Level extends Component {
     translate(pos.x, pos.y); // Flytter verden i for hold til spilleren
 
     for (Enemy e : allEnemys) {
-      e.collision();
       e.bulletCollion();
+      e.collision();
       e.update();
     }
     popMatrix();
@@ -105,19 +105,5 @@ class Level extends Component {
         allEnemys.add(e);
       }
     }
-  }
-
-  void removeEnemy(Enemy e) {
-    //if (allEnemys.size() > 0) {
-    //  int index = allEnemys.indexOf(e);
-      
-    //  ArrayList<Enemy> toRemove = new ArrayList<Enemy>();
-    //  for (String str : allEnemys) {
-    //    if (someCondition) {
-    //      toRemove.add(str);
-    //    }
-    //  }
-    //  myArrayList.removeAll(toRemove);
-    //}
   }
 }

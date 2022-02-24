@@ -12,6 +12,7 @@ class Player extends Component {
 
   // Holder alle skudene
   ArrayList<Bullet> allBullets = new ArrayList<Bullet>();
+  ArrayList<Bullet> allBulletsRemove = new ArrayList<Bullet>();
 
   Player() {
     center = new PVector(width/2, height/2);
@@ -22,10 +23,7 @@ class Player extends Component {
   }
 
   void display() {
-    // Tegn alle skudene
-    for (Bullet s : allBullets) {
-      s.display();
-    }
+    allBullets.removeAll(allBulletsRemove);
 
     // Ryk spillerns koordinatssystem ind så origo bliver til midten af vinduet
     pushMatrix();
@@ -33,6 +31,11 @@ class Player extends Component {
       rotate(angle + radians(90));
       image(compImg, 0, 0, 40, 60); // compImg -> Component class
     popMatrix();
+    
+    // Tegn alle skudene
+    for (Bullet s : allBullets) {
+      s.display();
+    }
   }
 
   void update() {
@@ -62,7 +65,7 @@ class Player extends Component {
 
   // Til at skyde
   void shoot() {
-    if (keyPressed && frameCount % 7 == 0) {
+    if (keyPressed && frameCount % 9 == 0) {
       if (key == ' ') {
         newBullet();
       }
@@ -75,7 +78,7 @@ class Player extends Component {
     bulletSpd.sub(center); // trækker vektorne fra hinanden og skaber en vektor fra centrum af skærmen til musen.
     bulletSpd.setMag(18); // Sætter størrelsen af den vektoren og aka skudets hastighed
 
-    Bullet b = new Bullet(center, bulletSpd);
+    Bullet b = new Bullet(center, bulletSpd, this);
     allBullets.add(b);
   }
 
