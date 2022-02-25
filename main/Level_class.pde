@@ -125,8 +125,8 @@ class Level extends Component {
   void addEnemys() {
     int maxEnemyes = int(level * 10);
 
-    if (allEnemys.size() <= maxEnemyes && frameCount % 25 == 0) {
-      for (int i = 0; i <= maxEnemyes; i++) {
+    if (frameCount % 120 == 0) {
+      if (allEnemys.size() <= maxEnemyes) {
         Enemy e = new PropPlane(currentPlayer, this, mainAppObj);
         allEnemys.add(e);
       }

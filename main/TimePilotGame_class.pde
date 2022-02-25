@@ -1,27 +1,32 @@
 class TimePilotGame {
-  SoundFile themeSong;
+  PApplet mainAppObj;
   
+  SoundFile themeSong;
+
   Level currentLevel;
   Player player;
-  
+
   int score;
 
-  boolean showMainmenu = false;
-  boolean showGame = true;
+  boolean showMainmenu = true;
+  boolean showGame = false;
   boolean isGameOver = false;
-  
+  boolean showPlayAgianText = true;
+
   PFont pressStart2D; 
 
   TimePilotGame(PApplet mainApp) {
+    mainAppObj = mainApp;
+    
     surface.setTitle("Time Pilot"); // Sætter titlen på program vinduet
     frameRate(60);
-    
-    player = new Player(mainApp);
-    currentLevel = new Level(player, mainApp);
+
+    player = new Player(mainAppObj);
+    currentLevel = new Level(player, mainAppObj);
     //currentLevel.currentPlayer = player;
-    
-    themeSong = new SoundFile(mainApp, "517524__mrthenoronha__8-bit-game-theme-2.wav");
-    
+
+    themeSong = new SoundFile(mainAppObj, "517524__mrthenoronha__8-bit-game-theme-2.wav");
+
     pressStart2D = createFont("PressStart2P-Regular.ttf", 12);
   }
 
@@ -30,9 +35,9 @@ class TimePilotGame {
     textAlign(LEFT);
     rectMode(CENTER);
     imageMode(CENTER);
-    
+
     textFont(pressStart2D);
-    
+
     // Hvis spillet køre skal man ikke se main menu
     if (showMainmenu == false && showGame == true && isGameOver == false) {
       run();
@@ -40,26 +45,22 @@ class TimePilotGame {
     } else {
       mainmenu();
     }
-    
+
     if (isGameOver == true && showMainmenu == false) {
       gameOverScreen();
     }
-    
+
     // Sætter til default
     textAlign(LEFT);
     rectMode(CORNER);
     imageMode(CORNER);
   }
 
-  // Tegner main menu
-  void mainmenu() {
-  }
-
   // Køre spillet, placer ting i spillet
   void run() {
     noCursor();
     clear();
-    
+
     currentLevel.display();
     player.display();
     currentLevel.update(player);
@@ -69,7 +70,7 @@ class TimePilotGame {
   // Opdatere spillet ting til deres nye position
   void update() {
     player.update();
-    
+
     if (player.hp <= 0) {
       gameOverScreen();
     }
@@ -77,12 +78,52 @@ class TimePilotGame {
 
   // Kigger på hvilke taster der bliver klikket 
   void key() {
-    //player.shoot();
+    if (keyCode == ENTER && showMainmenu == true) {
+      themeSong.stop();
+      player.jetEngine.loop();
+      showMainmenu = false;
+      showGame = true;
+    }
+    
+    if (keyCode == ENTER && isGameOver == true) {
+      if (player.playerDeadGameOverSound.isPlaying() == true) {
+        player.playerDeadGameOverSound.stop();
+      }
+      themeSong.stop();
+      player = new Player(mainAppObj);
+      currentLevel = new Level(player, mainAppObj);
+      isGameOver = false;
+      showGame = true;
+    }
   }
 
   void mouse() {
   }
   
+  void mainmenu() {
+    if (themeSong.isPlaying() == false && showMainmenu == true) {
+      themeSong.loop();
+    }
+    
+    fill(0);
+    rect(width / 2, height / 2, width, height);
+    fill(255);
+    textSize(40);
+    textAlign(CENTER);
+    text("TIME PILOT", width / 2, 100);
+    textSize(22);
+    
+    text("HIGHSCORE", width / 2, 300);
+    text("000000", width / 2, 335);
+    
+    textSize(18);
+
+    text("Start spil", width / 2,  height - 200);
+    pressStartText();
+    
+    text("Escape for quit", 25, height - 40);
+  }
+
   void gameOverScreen() {
     isGameOver = true;
     fill(0);
@@ -92,16 +133,43 @@ class TimePilotGame {
     textAlign(CENTER);
     text("GAME OVER", width / 2, 100);
     textSize(22);
-    
+
     text("SCORE", width / 2, 175);
     text(currentLevel.score, width / 2, 210);
-    
+
     text("HIGHSCORE", width / 2, 300);
     text("000000", width / 2, 335);
-    textAlign(LEFT);
+
+    textSize(18);
+
+    text("Spil igen", width / 2,  height - 200);
+    pressStartText();
     
+    text("Escape for quit", 25, height - 40);
+
     if (player.playerDeadGameOverSound.isPlaying() == false && themeSong.isPlaying() == false) {
       themeSong.loop();
     }
+  }
+  
+  void pressStartText() {
+    textAlign(CENTER);
+    
+    if (frameCount % 60 == 0) {
+      if (showPlayAgianText == true) {
+        showPlayAgianText = false;
+      } else {
+        showPlayAgianText = true;
+      }
+    }
+    
+    textSize(18);
+    
+    if (showPlayAgianText == true) {
+      text("PRESS ENTER", width / 2,  height - 160);
+    }
+
+    textSize(12);
+    textAlign(LEFT);
   }
 }

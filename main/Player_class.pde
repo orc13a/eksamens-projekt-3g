@@ -30,7 +30,7 @@ class Player extends Component {
     
     jetEngine = new SoundFile(mainAppObj, "324311__kgunessee__plane-engine-loop.wav");
     jetEngine.amp(0.3);
-    jetEngine.loop();
+    // jetEngine.loop();
     
     hitSound = new SoundFile(mainAppObj, "517664__devern__8-bit-cannon.wav");
     
