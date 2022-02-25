@@ -1,5 +1,12 @@
 class Player extends Component {
-  int hpLevel = 100;
+  PApplet mainAppObj;
+  
+  SoundFile jetEngine;
+  SoundFile hitSound;
+  SoundFile explosionSound;
+  SoundFile playerDeadGameOverSound;
+  
+  int hp = 3;
 
   float A = 0;
   float angle = 0;
@@ -14,11 +21,23 @@ class Player extends Component {
   ArrayList<Bullet> allBullets = new ArrayList<Bullet>();
   ArrayList<Bullet> allBulletsRemove = new ArrayList<Bullet>();
 
-  Player() {
+  Player(PApplet mainApp) {
+    mainAppObj = mainApp;
+    
     center = new PVector(width/2, height/2);
     bulletSpd = new PVector();
     mouse = new PVector();
-
+    
+    jetEngine = new SoundFile(mainAppObj, "324311__kgunessee__plane-engine-loop.wav");
+    jetEngine.amp(0.3);
+    jetEngine.loop();
+    
+    hitSound = new SoundFile(mainAppObj, "517664__devern__8-bit-cannon.wav");
+    
+    explosionSound = new SoundFile(mainAppObj, "270325__littlerobotsoundfactory__hit-02.wav");
+    
+    playerDeadGameOverSound = new SoundFile(mainAppObj, "533034__evretro__8-bit-game-over-sound-tune.wav");
+    
     createPlayer();
   }
 
@@ -38,7 +57,7 @@ class Player extends Component {
     }
   }
 
-  void update() {
+  void update() {  
     direction();
 
     // Update alle skudene
@@ -78,8 +97,9 @@ class Player extends Component {
     bulletSpd.sub(center); // trækker vektorne fra hinanden og skaber en vektor fra centrum af skærmen til musen.
     bulletSpd.setMag(18); // Sætter størrelsen af den vektoren og aka skudets hastighed
 
-    Bullet b = new Bullet(center, bulletSpd);
+    Bullet b = new Bullet(center, bulletSpd, mainAppObj);
     allBullets.add(b);
+    b.shoot();
   }
 
   // Laver en spiller
@@ -88,6 +108,14 @@ class Player extends Component {
   }
   
   void gotHit() {
+    hitSound.play();
+    hp--;
     
+    if (hp <= 0) {
+      jetEngine.stop();
+      
+      explosionSound.play();
+      playerDeadGameOverSound.play();
+    }
   }
 }

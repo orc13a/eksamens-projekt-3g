@@ -1,8 +1,12 @@
 class PropPlane extends Enemy {
-  PropPlane(Player player, Level level) {
-    super(player, level, loadImage("enemyPropPlane.png"));
+  PropPlane(Player player, Level level, PApplet mainApp) {
+    super(player, level, loadImage("enemyPropPlane.png"), mainApp);
     moveSpd = new PVector(3, 3);
     collisionRadius = 55;
+    scorePoints = 100;
+    engineSound = new SoundFile(mainApp, "12812__jilliancallahan__generic-prop-idle.wav");
+    engineSound.amp(0.1);
+    //engineSound.loop();
   }
   
   void display() {

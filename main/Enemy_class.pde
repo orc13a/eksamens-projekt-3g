@@ -1,6 +1,13 @@
 class Enemy extends Component {
+  PApplet mainAppObj;
+  
   Player currentPlayer;
   Level currentLevel;
+  
+  SoundFile hitSound;
+  SoundFile engineSound;
+  
+  int scorePoints = 0;
 
   float angle = 0;
   float targetAngle = 0;
@@ -16,10 +23,13 @@ class Enemy extends Component {
   
   ArrayList<Bullet> allBullets = new ArrayList<Bullet>();
 
-  Enemy(Player player, Level level, PImage img) {
+  Enemy(Player player, Level level, PImage img, PApplet mainApp) {
+    mainAppObj = mainApp;
     currentPlayer = player;
     currentLevel = level;
     compImg = img;
+    hitSound = new SoundFile(mainAppObj, "270325__littlerobotsoundfactory__hit-02.wav");
+    hitSound.amp(0.5);
     pos = new PVector(getStartPosX(), getStartPosY());
     vel = new PVector();
     bulletSpd = new PVector();
@@ -133,8 +143,13 @@ class Enemy extends Component {
     float d = dist(this.pos.x, this.pos.y, -currentLevel.pos.x, -currentLevel.pos.y);
 
     if (d < collisionRadius || d < currentPlayer.collisionRadius) {
+      hitSound.play();
       currentLevel.allEnemysRemove.add(this);
       currentPlayer.gotHit();
+      
+      if (currentPlayer.hp <= 0) {
+        engineSound.stop();
+      }
     }
   }
   
@@ -153,7 +168,12 @@ class Enemy extends Component {
       float d = dist(savedPosE.x, savedPosE.y, b.pos.x, b.pos.y);
       
       if (d < collisionRadius) {
+        currentLevel.enemysKilledProcent += 1;
+        currentLevel.score += scorePoints;
+        
+        hitSound.play();
         currentLevel.allEnemysRemove.add(this);
+        
         currentPlayer.allBulletsRemove.add(b);
         break;
       }
@@ -163,12 +183,12 @@ class Enemy extends Component {
   }
   
   void newBullet() {
-    bulletSpd.set(targetSaved.x, targetSaved.y, 0);
-    bulletSpd.sub(pos); // trækker vektorne fra hinanden og skaber en vektor fra centrum af skærmen til musen.
-    bulletSpd.setMag(18); // Sætter størrelsen af den vektoren og aka skudets hastighed
+    //bulletSpd.set(targetSaved.x, targetSaved.y, 0);
+    //bulletSpd.sub(pos); // trækker vektorne fra hinanden og skaber en vektor fra centrum af skærmen til musen.
+    //bulletSpd.setMag(18); // Sætter størrelsen af den vektoren og aka skudets hastighed
 
-    Bullet b = new Bullet(pos, bulletSpd);
-    allBullets.add(b);
+    //Bullet b = new Bullet(pos, bulletSpd,);
+    //allBullets.add(b);
   }
   
   void shoot() {

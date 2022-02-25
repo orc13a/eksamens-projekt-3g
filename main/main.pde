@@ -1,10 +1,12 @@
+import processing.sound.*;
+
 TimePilotGame game;
 
 void setup(){
   size(600, 800);
   smooth(8);
   
-  game = new TimePilotGame();
+  game = new TimePilotGame(this);
 }
 
 void draw(){

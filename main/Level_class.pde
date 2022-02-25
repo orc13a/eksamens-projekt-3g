@@ -1,20 +1,27 @@
 class Level extends Component {
+  PApplet mainAppObj;
+  
   PImage skyImage;
 
   Player currentPlayer;
 
   int level = 1;
+  int score = 0;
+  int enemysKilledProcent = 0;
+  int waveKillsNeeded = 20;
 
   ArrayList<Enemy> allEnemys = new ArrayList<Enemy>();
   ArrayList<Enemy> allEnemysRemove = new ArrayList<Enemy>();
 
-  Level() {
+  Level(PApplet mainApp) {
+    mainAppObj = mainApp;
     skyImage = loadImage("skyRepeat.jpeg");
     pos = new PVector(0, 0);
     //addEnemy();
   }
 
-  Level(Player p) {
+  Level(Player p, PApplet mainApp) {
+    mainAppObj = mainApp;
     currentPlayer = p;
     skyImage = loadImage("skyRepeat.jpeg");
     pos = new PVector(0, 0);
@@ -47,14 +54,21 @@ class Level extends Component {
     fill(0);
     rect((width/2), 55, width, 110);
     fill(255);
-    text("SCORE: 000000", 20, 30);
+    text("SCORE: " + score, 20, 30);
     text("HIGHSCORE", width/2 - 55, 30);
     text("000000", width/2 - 37, 55);
-    text("HP: III", 20, 90);
+    text("HP: " + currentPlayer.hp, 20, 90);
     text("LEVEL: 1", width - 115, 90);
     
     fill(0);
     rect((width/2), height - 50, width, 100);
+    fill(255);
+    text("WAVE: ", 25, height - 25);
+    stroke(255);
+    for (int i = 0; i <= (waveKillsNeeded - enemysKilledProcent); i++) {
+      rect(100 + (5 * i), height - 32, 5, 10);
+    }
+    noStroke();
   }
 
   void update(Player p) {
@@ -113,9 +127,15 @@ class Level extends Component {
 
     if (allEnemys.size() <= maxEnemyes && frameCount % 25 == 0) {
       for (int i = 0; i <= maxEnemyes; i++) {
-        Enemy e = new PropPlane(currentPlayer, this);
+        Enemy e = new PropPlane(currentPlayer, this, mainAppObj);
         allEnemys.add(e);
       }
+    }
+  }
+  
+  void levelCompletedCheck() {
+    if (enemysKilledProcent >= waveKillsNeeded) {
+      exit();
     }
   }
 }
