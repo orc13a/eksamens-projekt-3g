@@ -1,6 +1,8 @@
 class Level extends Component {
   PApplet mainAppObj;
   
+  Table highscoreTable;
+  
   PImage skyImage;
 
   Player currentPlayer;
@@ -13,15 +15,21 @@ class Level extends Component {
   ArrayList<Enemy> allEnemys = new ArrayList<Enemy>();
   ArrayList<Enemy> allEnemysRemove = new ArrayList<Enemy>();
 
-  Level(PApplet mainApp) {
+  Level(Table hst, PApplet mainApp) {
     mainAppObj = mainApp;
+    
+    highscoreTable = hst;
+    
     skyImage = loadImage("skyRepeat.jpeg");
     pos = new PVector(0, 0);
     //addEnemy();
   }
 
-  Level(Player p, PApplet mainApp) {
+  Level(Player p, Table hst, PApplet mainApp) {
     mainAppObj = mainApp;
+    
+    highscoreTable = hst;
+    
     currentPlayer = p;
     skyImage = loadImage("skyRepeat.jpeg");
     pos = new PVector(0, 0);
@@ -56,7 +64,10 @@ class Level extends Component {
     fill(255);
     text("SCORE: " + score, 20, 30);
     text("HIGHSCORE", width/2 - 55, 30);
-    text("000000", width/2 - 37, 55);
+    //TableRow row = highscoreTable.getRow(0);
+    
+    //text(row.getInt("hightscore"), width / 2, 335);
+    
     text("HP: " + currentPlayer.hp, 20, 90);
     text("LEVEL: 1", width - 115, 90);
     

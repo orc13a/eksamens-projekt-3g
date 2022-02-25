@@ -5,8 +5,11 @@ class TimePilotGame {
 
   Level currentLevel;
   Player player;
+  
+  Table highscoreTable;
 
   int score;
+  int highscore = 0;
 
   boolean showMainmenu = true;
   boolean showGame = false;
@@ -22,12 +25,18 @@ class TimePilotGame {
     frameRate(60);
 
     player = new Player(mainAppObj);
-    currentLevel = new Level(player, mainAppObj);
+    currentLevel = new Level(player, highscoreTable, mainAppObj);
     //currentLevel.currentPlayer = player;
 
     themeSong = new SoundFile(mainAppObj, "517524__mrthenoronha__8-bit-game-theme-2.wav");
 
     pressStart2D = createFont("PressStart2P-Regular.ttf", 12);
+    
+    try {
+      highscoreTable = loadTable("highscores.csv", "headers");
+    } catch(Exception e) {
+      createCsvHighscoreFile();
+    }
   }
 
   void display() {
@@ -37,6 +46,14 @@ class TimePilotGame {
     imageMode(CENTER);
 
     textFont(pressStart2D);
+    
+    if (frameCount % 60 == 0) {
+      if (showPlayAgianText == true) {
+        showPlayAgianText = false;
+      } else {
+        showPlayAgianText = true;
+      }
+    }
 
     // Hvis spillet køre skal man ikke se main menu
     if (showMainmenu == false && showGame == true && isGameOver == false) {
@@ -91,7 +108,7 @@ class TimePilotGame {
       }
       themeSong.stop();
       player = new Player(mainAppObj);
-      currentLevel = new Level(player, mainAppObj);
+      currentLevel = new Level(player, highscoreTable, mainAppObj);
       isGameOver = false;
       showGame = true;
     }
@@ -138,7 +155,9 @@ class TimePilotGame {
     text(currentLevel.score, width / 2, 210);
 
     text("HIGHSCORE", width / 2, 300);
-    text("000000", width / 2, 335);
+    //TableRow row = highscoreTable.getRow(0);
+    
+    //text(row.getInt("hightscore"), width / 2, 335);
 
     textSize(18);
 
@@ -155,14 +174,6 @@ class TimePilotGame {
   void pressStartText() {
     textAlign(CENTER);
     
-    if (frameCount % 60 == 0) {
-      if (showPlayAgianText == true) {
-        showPlayAgianText = false;
-      } else {
-        showPlayAgianText = true;
-      }
-    }
-    
     textSize(18);
     
     if (showPlayAgianText == true) {
@@ -171,5 +182,22 @@ class TimePilotGame {
 
     textSize(12);
     textAlign(LEFT);
+  }
+  
+  void createCsvHighscoreFile() {
+    highscoreTable = new Table();
+    highscoreTable.addColumn("highscore", Table.INT);
+    TableRow newRow = highscoreTable.addRow();
+    newRow.setInt("hightscore", 0);
+    
+    saveTable(highscoreTable, "data/highscores.csv");
+    
+    highscoreTable = loadTable("highscores.csv", "headers");
+  }
+  
+  void saveHighscore() {
+    TableRow newRow = highscoreTable.addRow();
+    newRow.setInt("hightscore", 0);
+    saveTable(highscoreTable, "data/highscores.csv");
   }
 }
