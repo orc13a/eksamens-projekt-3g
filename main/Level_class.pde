@@ -1,21 +1,30 @@
 class Level extends Component {
   PApplet mainAppObj;
+  
   //Henter baggrunds billede.
   PImage skyImage;
+  
   //se enemy class.
   Player currentPlayer;
+  
   //variable for hvilket niveau man er på (der er kun et level lige nu)
   int level = 1;
+  
   //holder på rundens score
   int score = 0;
+  
   // Hvor mange man har dræbt
   int enemysKilledProcent = 0;
+  
   // Hvor mange man skal dræbe for at vinde level
   int waveKillsNeeded = 20;
+  
   //arraylister der holder alle fjender og alle fjender der skal fjernes
   ArrayList<Enemy> allEnemys = new ArrayList<Enemy>();
+  
   //vi skal have remove ellers så opstår der modification error
   ArrayList<Enemy> allEnemysRemove = new ArrayList<Enemy>();
+  
   //Vi har overloading af konstruktør.
   Level(PApplet mainApp) {
     mainAppObj = mainApp;
@@ -46,6 +55,7 @@ class Level extends Component {
     }
 
     popMatrix();
+    
     //tilføjer grafisk tekst og score
     fill(0);
     rect((width/2), 55, width, 110);
@@ -87,11 +97,14 @@ class Level extends Component {
   // Laver baggrunds himmlen
   void createBackground() {
     pushMatrix();
+    
     // "Billdet" som bliver lavet af for-loops'ene er 61.200x61.200
     // Derfor rykker vi ind i midten af "billedet"
     translate(-30000, -30000);
+    
     // x-aksen
     for (int x = 1; x <= 100; x++) {
+      
       // y-aksen
       for (int y = 1; y <= 100; y++) {
         image(skyImage, x * skyImage.width, y * skyImage.height);
@@ -109,11 +122,13 @@ class Level extends Component {
     // Så bruger vi vektoren i spillerens koordinatssystem
     pushMatrix();
     translate(p.center.x, p.center.y);
+    
     // Flytter verden modsat af hvor spilleren flyver hen
     pos.x -= a.x * p.planeSpd;
     pos.y -= a.y * p.planeSpd;
     popMatrix();
   }
+  
   //metode der sørger for at tilføje fjender hver 2 sekund.
   void addEnemys() {
     int maxEnemyes = int(level * 10);

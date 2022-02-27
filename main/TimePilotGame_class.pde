@@ -39,6 +39,7 @@ class TimePilotGame {
     imageMode(CENTER);
 
     textFont(pressStart2D);
+    
     //dette er til at få skriften til at blinke
     if (frameCount % 60 == 0) {
       if (showPlayAgianText == true) {
@@ -88,6 +89,7 @@ class TimePilotGame {
     if (player.hp <= 0) {
       isGameOver = true;
     }
+    
     //Når man har dræbt alle fjender så har man klaret level
     if (currentLevel.enemysKilledProcent == currentLevel.waveKillsNeeded) {
       isWaveCompleted = true;
@@ -114,6 +116,7 @@ class TimePilotGame {
       showGame = true;
     }
   }
+  
   //metode der holder det grafiske til hoved menuen
   void mainmenu() {
     if (themeSong.isPlaying() == false && showMainmenu == true) {
@@ -138,6 +141,7 @@ class TimePilotGame {
 
     text("Escape for quit", 25, height - 40);
   }
+  
   //metode der holder det grafiske til gameover skærmen
   void gameOverScreen() {
     fill(0);
@@ -163,6 +167,7 @@ class TimePilotGame {
       themeSong.loop();
     }
   }
+  
   //metode som holder den blinkende tekst
   void pressStartText() {
     textAlign(CENTER);
@@ -176,6 +181,7 @@ class TimePilotGame {
     textSize(12);
     textAlign(LEFT);
   }
+  
   //metode der holder det grafiske til level klaret skærm
   void waveCompletedScreen() {
     player.jetEngine.stop();

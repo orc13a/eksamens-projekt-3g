@@ -2,23 +2,32 @@ class Enemy extends Component {
   //PApplet er navnet på hovedklassen af hele processing programmet
   //Hoved klassen skal bruges alle de steder hvor der skal bruges lydfiler.
   PApplet mainAppObj;
+  
   //currentplayer referere til Player objektet.
   Player currentPlayer;
+  
   //currentLevel referere til den nuværende levels objekt.
   Level currentLevel;
+  
   //Variabler der holder på lydfiler.
   SoundFile hitSound;
   SoundFile engineSound;
+  
   //Det antal point man får tillagt alt efter hvilken fjende man skyder ned.
   int scorePoints = 0;
+  
   //vinkel fjenden peger-
   float angle = 0;
+  
   //Gemt vinkel for når flyet kommer for tæt på spilleren, og kommer ind i freezZoneRadius.
   float targetAngle = 0;
+  
   //Den radius omkring spilleren som en fjende har, hvor fjenden vil stoppe med at følge efter spilleren.
   float freezZoneRadius = random(250, 500);
+  
   //Fjendernes "hitbox"
   float collisionRadius = 0;
+  
   //Variable til at tjekke om fjende har været inde i FreezZoneRadius.
   boolean hasBeenFreezed = false;
 
@@ -26,6 +35,7 @@ class Enemy extends Component {
   PVector moveSpd = new PVector(0, 0);
   PVector newH = new PVector(0, 0);
   PVector bulletSpd; // Bullet speed
+  
   //Holder på fjendens skud.
   ArrayList<Bullet> allBullets = new ArrayList<Bullet>();
 
@@ -47,6 +57,7 @@ class Enemy extends Component {
 
   void update() {
     turn();
+    
     //Disse if statements Tjekker om fjenden er inde i Freeze Radius og gemmer dens retning i freezeZone, samt når den er ude igen.
     if (isToCloseToPlayerCheck() == true && hasBeenFreezed == false) {
       hasBeenFreezed = true;
@@ -72,6 +83,7 @@ class Enemy extends Component {
     for (Bullet s : allBullets) {
       s.update();
     }
+    
     //Dette for-loop sletter fjendes skud når de kommer et bestemt stykke væk fra fjenden.½½
     for (int i = 0; i < allBullets.size(); i++) {
       Bullet b = allBullets.get(i);
@@ -81,6 +93,7 @@ class Enemy extends Component {
       }
     }
   }
+  
   //Vi bestemmer hvilken retning fjenderne skal kigge i, og så gør denne funktion at fjenden følger efter spilleren.
   void direction() {
     PVector p = new PVector(-currentLevel.pos.x, -currentLevel.pos.y);
@@ -93,6 +106,7 @@ class Enemy extends Component {
       angle = targetAngle;
     }
   }
+  
   //Tjekker om fjenden er inde for FreezeRadius.
   boolean isToCloseToPlayerCheck() {
     float distToPlayer = dist(this.pos.x, this.pos.y, -currentLevel.pos.x, -currentLevel.pos.y);
@@ -103,6 +117,7 @@ class Enemy extends Component {
       return false;
     }
   }
+  
   //metode til at få fjenden til at ligne den drejer rundt (ps virker ikke lige nu)
   void turn() {
     if (angle > targetAngle) {
@@ -112,11 +127,13 @@ class Enemy extends Component {
       angle += radians(moveSpd.x);
     }
   }
+  
   //metode der rykker på fjenden.
   void movement(PVector target) {
     this.pos.x += target.x * moveSpd.x;
     this.pos.y += target.y * moveSpd.y;
   }
+  
   //funktion der giver fjende tilfældig x koordinat til hvor den starter
   float getStartPosX() {
     float x1 = random(-width, -width - 100);
@@ -126,6 +143,7 @@ class Enemy extends Component {
 
     return picked == 0 ? x1 : x2;
   }
+  
   //funktion der giver fjende tilfældig y koordinat til hvor den starter
   float getStartPosY() {
     float y1 = random(-height, -height - 100);
@@ -135,6 +153,7 @@ class Enemy extends Component {
 
     return picked == 0 ? y1 : y2;
   }
+  
   //metode der kigger om spilleren og fjenden flyver ind i hinanden.
   void collision() {
     float d = dist(this.pos.x, this.pos.y, -currentLevel.pos.x, -currentLevel.pos.y);
@@ -149,6 +168,7 @@ class Enemy extends Component {
       }
     }
   }
+  
   //metode der tjekker om spillerens skud rammer fjenden.
   void bulletCollion() {
     PVector savedPosE = new PVector(this.pos.x, this.pos.y);

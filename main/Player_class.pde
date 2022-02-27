@@ -1,16 +1,20 @@
 class Player extends Component {
   PApplet mainAppObj;
+  
   //Henter lydfiler
   SoundFile jetEngine;
   SoundFile hitSound;
   SoundFile explosionSound;
   SoundFile playerDeadGameOverSound;
+  
   //sætter spillerens antal liv
   int hp = 3;
 
   float angle = 0;
+  
   //spillerens hastighed
   float planeSpd = 5;
+  
   //Spillerens "hitbox"
   float collisionRadius = 60;
 
@@ -106,6 +110,7 @@ class Player extends Component {
   void createPlayer() {
     compImg = loadImage("player/player-u.png");
   }
+  
   //Sørger for at stoppe spil lyd og gå et liv ned for spilleren.
   void gotHit() {
     hitSound.play();

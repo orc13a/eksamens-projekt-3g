@@ -41,6 +41,7 @@ class Bullet extends Component {
       return false;
     }
   }
+  
   //Spiller lyd når man skyder
   void shoot() {
     bulletSound.play();
