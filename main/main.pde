@@ -2,14 +2,14 @@ import processing.sound.*;
 
 TimePilotGame game;
 
-void setup(){
+void setup() {
   size(600, 800);
   smooth(8);
-  
+
   game = new TimePilotGame(this);
 }
 
-void draw(){
+void draw() {
   game.display();
 }
 

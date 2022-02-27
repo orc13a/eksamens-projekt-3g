@@ -1,11 +1,12 @@
 class TimePilotGame {
   PApplet mainAppObj;
-  
+
   SoundFile themeSong;
+  SoundFile waveCompletedSound;
 
   Level currentLevel;
   Player player;
-  
+
   Table highscoreTable;
 
   int score;
@@ -15,12 +16,14 @@ class TimePilotGame {
   boolean showGame = false;
   boolean isGameOver = false;
   boolean showPlayAgianText = true;
+  boolean isWaveCompleted = false;
+  boolean playWaveCompletedSound = true;
 
   PFont pressStart2D; 
 
   TimePilotGame(PApplet mainApp) {
     mainAppObj = mainApp;
-    
+
     surface.setTitle("Time Pilot"); // Sætter titlen på program vinduet
     frameRate(60);
 
@@ -29,12 +32,14 @@ class TimePilotGame {
     //currentLevel.currentPlayer = player;
 
     themeSong = new SoundFile(mainAppObj, "517524__mrthenoronha__8-bit-game-theme-2.wav");
+    waveCompletedSound = new SoundFile(mainAppObj, "518308__mrthenoronha__world-clear-8-bit.wav");
 
     pressStart2D = createFont("PressStart2P-Regular.ttf", 12);
-    
+
     try {
       highscoreTable = loadTable("highscores.csv", "headers");
-    } catch(Exception e) {
+    } 
+    catch(Exception e) {
       createCsvHighscoreFile();
     }
   }
@@ -46,7 +51,7 @@ class TimePilotGame {
     imageMode(CENTER);
 
     textFont(pressStart2D);
-    
+
     if (frameCount % 60 == 0) {
       if (showPlayAgianText == true) {
         showPlayAgianText = false;
@@ -56,7 +61,7 @@ class TimePilotGame {
     }
 
     // Hvis spillet køre skal man ikke se main menu
-    if (showMainmenu == false && showGame == true && isGameOver == false) {
+    if (showMainmenu == false && showGame == true && isGameOver == false && isWaveCompleted == false) {
       run();
       update();
     } else {
@@ -65,6 +70,10 @@ class TimePilotGame {
 
     if (isGameOver == true && showMainmenu == false) {
       gameOverScreen();
+    }
+    
+    if (isWaveCompleted == true && showMainmenu == false) {
+      waveCompletedScreen();
     }
 
     // Sætter til default
@@ -89,7 +98,11 @@ class TimePilotGame {
     player.update();
 
     if (player.hp <= 0) {
-      gameOverScreen();
+      isGameOver = true;
+    }
+    
+    if (currentLevel.enemysKilledProcent == currentLevel.waveKillsNeeded) {
+      isWaveCompleted = true;
     }
   }
 
@@ -101,7 +114,7 @@ class TimePilotGame {
       showMainmenu = false;
       showGame = true;
     }
-    
+
     if (keyCode == ENTER && isGameOver == true) {
       if (player.playerDeadGameOverSound.isPlaying() == true) {
         player.playerDeadGameOverSound.stop();
@@ -116,12 +129,12 @@ class TimePilotGame {
 
   void mouse() {
   }
-  
+
   void mainmenu() {
     if (themeSong.isPlaying() == false && showMainmenu == true) {
       themeSong.loop();
     }
-    
+
     fill(0);
     rect(width / 2, height / 2, width, height);
     fill(255);
@@ -129,20 +142,19 @@ class TimePilotGame {
     textAlign(CENTER);
     text("TIME PILOT", width / 2, 100);
     textSize(22);
-    
+
     text("HIGHSCORE", width / 2, 300);
     text("000000", width / 2, 335);
-    
+
     textSize(18);
 
-    text("Start spil", width / 2,  height - 200);
+    text("Start spil", width / 2, height - 200);
     pressStartText();
-    
+
     text("Escape for quit", 25, height - 40);
   }
 
   void gameOverScreen() {
-    isGameOver = true;
     fill(0);
     rect(width / 2, height / 2, width, height);
     fill(255);
@@ -156,48 +168,68 @@ class TimePilotGame {
 
     text("HIGHSCORE", width / 2, 300);
     //TableRow row = highscoreTable.getRow(0);
-    
+
     //text(row.getInt("hightscore"), width / 2, 335);
 
     textSize(18);
 
-    text("Spil igen", width / 2,  height - 200);
+    text("Spil igen", width / 2, height - 200);
     pressStartText();
-    
+
     text("Escape for quit", 25, height - 40);
 
     if (player.playerDeadGameOverSound.isPlaying() == false && themeSong.isPlaying() == false) {
       themeSong.loop();
     }
   }
-  
+
   void pressStartText() {
     textAlign(CENTER);
-    
+
     textSize(18);
-    
+
     if (showPlayAgianText == true) {
-      text("PRESS ENTER", width / 2,  height - 160);
+      text("PRESS ENTER", width / 2, height - 160);
     }
 
     textSize(12);
     textAlign(LEFT);
   }
-  
+
   void createCsvHighscoreFile() {
     highscoreTable = new Table();
     highscoreTable.addColumn("highscore", Table.INT);
     TableRow newRow = highscoreTable.addRow();
     newRow.setInt("hightscore", 0);
-    
+
     saveTable(highscoreTable, "data/highscores.csv");
-    
+
     highscoreTable = loadTable("highscores.csv", "headers");
   }
-  
+
   void saveHighscore() {
     TableRow newRow = highscoreTable.addRow();
     newRow.setInt("hightscore", 0);
     saveTable(highscoreTable, "data/highscores.csv");
+  }
+
+  void waveCompletedScreen() {
+    player.jetEngine.stop();
+    
+    if (playWaveCompletedSound == true) {
+      waveCompletedSound.play();
+      playWaveCompletedSound = false;
+    }
+    
+    fill(0);
+    rect(width / 2, height / 2, width, height);
+    fill(255);
+    textSize(34);
+    textAlign(CENTER);
+    text("WAVE completed", width / 2, 100);
+    textSize(16);
+    text("Loading next wave...", width / 2, height/2);
+    textSize(12);
+    textAlign(LEFT);
   }
 }

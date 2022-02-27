@@ -1,8 +1,8 @@
 class Level extends Component {
   PApplet mainAppObj;
-  
+
   Table highscoreTable;
-  
+
   PImage skyImage;
 
   Player currentPlayer;
@@ -17,9 +17,9 @@ class Level extends Component {
 
   Level(Table hst, PApplet mainApp) {
     mainAppObj = mainApp;
-    
+
     highscoreTable = hst;
-    
+
     skyImage = loadImage("skyRepeat.jpeg");
     pos = new PVector(0, 0);
     //addEnemy();
@@ -27,9 +27,9 @@ class Level extends Component {
 
   Level(Player p, Table hst, PApplet mainApp) {
     mainAppObj = mainApp;
-    
+
     highscoreTable = hst;
-    
+
     currentPlayer = p;
     skyImage = loadImage("skyRepeat.jpeg");
     pos = new PVector(0, 0);
@@ -42,9 +42,9 @@ class Level extends Component {
     translate(pos.x, pos.y); // Flytter verden i for hold til spilleren
 
     createBackground();
-    
+
     allEnemys.removeAll(allEnemysRemove);
-    
+
     for (Enemy e : allEnemys) {
       //circle(e.pos.x, e.pos.y, 75);
       //println(e.pos);
@@ -58,19 +58,19 @@ class Level extends Component {
     //println('-');
     //circle(0, 0, 100);
     popMatrix();
-    
+
     fill(0);
     rect((width/2), 55, width, 110);
     fill(255);
     text("SCORE: " + score, 20, 30);
     text("HIGHSCORE", width/2 - 55, 30);
     //TableRow row = highscoreTable.getRow(0);
-    
+
     //text(row.getInt("hightscore"), width / 2, 335);
-    
+
     text("HP: " + currentPlayer.hp, 20, 90);
     text("LEVEL: 1", width - 115, 90);
-    
+
     fill(0);
     rect((width/2), height - 50, width, 100);
     fill(255);
@@ -143,7 +143,7 @@ class Level extends Component {
       }
     }
   }
-  
+
   void levelCompletedCheck() {
     if (enemysKilledProcent >= waveKillsNeeded) {
       exit();

@@ -1,12 +1,12 @@
 class Enemy extends Component {
   PApplet mainAppObj;
-  
+
   Player currentPlayer;
   Level currentLevel;
-  
+
   SoundFile hitSound;
   SoundFile engineSound;
-  
+
   int scorePoints = 0;
 
   float angle = 0;
@@ -20,7 +20,7 @@ class Enemy extends Component {
   PVector moveSpd = new PVector(0, 0);
   PVector newH = new PVector(0, 0);
   PVector bulletSpd; // Bullet speed
-  
+
   ArrayList<Bullet> allBullets = new ArrayList<Bullet>();
 
   Enemy(Player player, Level level, PImage img, PApplet mainApp) {
@@ -41,7 +41,7 @@ class Enemy extends Component {
   void update() {
     turn();
     shoot();
-    
+
     if (isToCloseToPlayerCheck() == true && hasBeenFreezed == false) {
       hasBeenFreezed = true;
     }
@@ -62,11 +62,11 @@ class Enemy extends Component {
     if (isToCloseToPlayerCheck() == false && hasBeenFreezed == false) {
       direction();
     }
-    
+
     for (Bullet s : allBullets) {
       s.update();
     }
-    
+
     for (int i = 0; i < allBullets.size(); i++) {
       Bullet b = allBullets.get(i);
       float d = dist(pos.x, pos.y, b.pos.x, b.pos.y);
@@ -146,42 +146,42 @@ class Enemy extends Component {
       hitSound.play();
       currentLevel.allEnemysRemove.add(this);
       currentPlayer.gotHit();
-      
+
       if (currentPlayer.hp <= 0) {
         engineSound.stop();
       }
     }
   }
-  
+
   void bulletCollion() {
     PVector savedPosE = new PVector(this.pos.x, this.pos.y);
-    
+
     pushMatrix();
     translate(-(width/2), -(height/2));
     translate(-currentLevel.pos.x, -currentLevel.pos.y);  
-    
+
     for (Bullet b : currentPlayer.allBullets) {
       savedPosE.x += (width/2) + currentLevel.pos.x;
       savedPosE.y += (height/2) + currentLevel.pos.y;
-      
+
       //line(savedPosE.x, savedPosE.y, b.pos.x, b.pos.y);
       float d = dist(savedPosE.x, savedPosE.y, b.pos.x, b.pos.y);
-      
+
       if (d < collisionRadius) {
         currentLevel.enemysKilledProcent += 1;
         currentLevel.score += scorePoints;
-        
+
         hitSound.play();
         currentLevel.allEnemysRemove.add(this);
-        
+
         currentPlayer.allBulletsRemove.add(b);
         break;
       }
     }
-    
+
     popMatrix();
   }
-  
+
   void newBullet() {
     //bulletSpd.set(targetSaved.x, targetSaved.y, 0);
     //bulletSpd.sub(pos); // trækker vektorne fra hinanden og skaber en vektor fra centrum af skærmen til musen.
@@ -190,8 +190,7 @@ class Enemy extends Component {
     //Bullet b = new Bullet(pos, bulletSpd,);
     //allBullets.add(b);
   }
-  
+
   void shoot() {
-    
   }
 }
