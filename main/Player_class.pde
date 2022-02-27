@@ -1,16 +1,17 @@
 class Player extends Component {
   PApplet mainAppObj;
-
+  //Henter lydfiler
   SoundFile jetEngine;
   SoundFile hitSound;
   SoundFile explosionSound;
   SoundFile playerDeadGameOverSound;
-
+  //sætter spillerens antal liv
   int hp = 3;
 
-  float A = 0;
   float angle = 0;
+  //spillerens hastighed
   float planeSpd = 5;
+  //Spillerens "hitbox"
   float collisionRadius = 60;
 
   PVector center; // Center er der hvor spilleren (flyet) er på skærmen
@@ -30,7 +31,6 @@ class Player extends Component {
 
     jetEngine = new SoundFile(mainAppObj, "324311__kgunessee__plane-engine-loop.wav");
     jetEngine.amp(0.3);
-    // jetEngine.loop();
 
     hitSound = new SoundFile(mainAppObj, "517664__devern__8-bit-cannon.wav");
 
@@ -106,7 +106,7 @@ class Player extends Component {
   void createPlayer() {
     compImg = loadImage("player/player-u.png");
   }
-
+  //Sørger for at stoppe spil lyd og gå et liv ned for spilleren.
   void gotHit() {
     hitSound.play();
     hp--;

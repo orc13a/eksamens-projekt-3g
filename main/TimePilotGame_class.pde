@@ -7,11 +7,6 @@ class TimePilotGame {
   Level currentLevel;
   Player player;
 
-  Table highscoreTable;
-
-  int score;
-  int highscore = 0;
-
   boolean showMainmenu = true;
   boolean showGame = false;
   boolean isGameOver = false;
@@ -28,20 +23,13 @@ class TimePilotGame {
     frameRate(60);
 
     player = new Player(mainAppObj);
-    currentLevel = new Level(player, highscoreTable, mainAppObj);
+    currentLevel = new Level(player, mainAppObj);
     //currentLevel.currentPlayer = player;
 
     themeSong = new SoundFile(mainAppObj, "517524__mrthenoronha__8-bit-game-theme-2.wav");
     waveCompletedSound = new SoundFile(mainAppObj, "518308__mrthenoronha__world-clear-8-bit.wav");
-
+    //indlæser speciel skriftype
     pressStart2D = createFont("PressStart2P-Regular.ttf", 12);
-
-    try {
-      highscoreTable = loadTable("highscores.csv", "headers");
-    } 
-    catch(Exception e) {
-      createCsvHighscoreFile();
-    }
   }
 
   void display() {
@@ -51,7 +39,7 @@ class TimePilotGame {
     imageMode(CENTER);
 
     textFont(pressStart2D);
-
+    //dette er til at få skriften til at blinke
     if (frameCount % 60 == 0) {
       if (showPlayAgianText == true) {
         showPlayAgianText = false;
@@ -71,7 +59,7 @@ class TimePilotGame {
     if (isGameOver == true && showMainmenu == false) {
       gameOverScreen();
     }
-    
+
     if (isWaveCompleted == true && showMainmenu == false) {
       waveCompletedScreen();
     }
@@ -100,7 +88,7 @@ class TimePilotGame {
     if (player.hp <= 0) {
       isGameOver = true;
     }
-    
+    //Når man har dræbt alle fjender så har man klaret level
     if (currentLevel.enemysKilledProcent == currentLevel.waveKillsNeeded) {
       isWaveCompleted = true;
     }
@@ -121,15 +109,12 @@ class TimePilotGame {
       }
       themeSong.stop();
       player = new Player(mainAppObj);
-      currentLevel = new Level(player, highscoreTable, mainAppObj);
+      currentLevel = new Level(player, mainAppObj);
       isGameOver = false;
       showGame = true;
     }
   }
-
-  void mouse() {
-  }
-
+  //metode der holder det grafiske til hoved menuen
   void mainmenu() {
     if (themeSong.isPlaying() == false && showMainmenu == true) {
       themeSong.loop();
@@ -153,7 +138,7 @@ class TimePilotGame {
 
     text("Escape for quit", 25, height - 40);
   }
-
+  //metode der holder det grafiske til gameover skærmen
   void gameOverScreen() {
     fill(0);
     rect(width / 2, height / 2, width, height);
@@ -167,10 +152,6 @@ class TimePilotGame {
     text(currentLevel.score, width / 2, 210);
 
     text("HIGHSCORE", width / 2, 300);
-    //TableRow row = highscoreTable.getRow(0);
-
-    //text(row.getInt("hightscore"), width / 2, 335);
-
     textSize(18);
 
     text("Spil igen", width / 2, height - 200);
@@ -182,7 +163,7 @@ class TimePilotGame {
       themeSong.loop();
     }
   }
-
+  //metode som holder den blinkende tekst
   void pressStartText() {
     textAlign(CENTER);
 
@@ -195,32 +176,15 @@ class TimePilotGame {
     textSize(12);
     textAlign(LEFT);
   }
-
-  void createCsvHighscoreFile() {
-    highscoreTable = new Table();
-    highscoreTable.addColumn("highscore", Table.INT);
-    TableRow newRow = highscoreTable.addRow();
-    newRow.setInt("hightscore", 0);
-
-    saveTable(highscoreTable, "data/highscores.csv");
-
-    highscoreTable = loadTable("highscores.csv", "headers");
-  }
-
-  void saveHighscore() {
-    TableRow newRow = highscoreTable.addRow();
-    newRow.setInt("hightscore", 0);
-    saveTable(highscoreTable, "data/highscores.csv");
-  }
-
+  //metode der holder det grafiske til level klaret skærm
   void waveCompletedScreen() {
     player.jetEngine.stop();
-    
+
     if (playWaveCompletedSound == true) {
       waveCompletedSound.play();
       playWaveCompletedSound = false;
     }
-    
+
     fill(0);
     rect(width / 2, height / 2, width, height);
     fill(255);

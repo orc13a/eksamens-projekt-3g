@@ -1,3 +1,4 @@
+//Component klassen holder på de mest gentagne variabler.
 class Component {
   float x, y, z, w;
   PImage compImg;

@@ -1,39 +1,35 @@
 class Level extends Component {
   PApplet mainAppObj;
-
-  Table highscoreTable;
-
+  //Henter baggrunds billede.
   PImage skyImage;
-
+  //se enemy class.
   Player currentPlayer;
-
+  //variable for hvilket niveau man er på (der er kun et level lige nu)
   int level = 1;
+  //holder på rundens score
   int score = 0;
+  // Hvor mange man har dræbt
   int enemysKilledProcent = 0;
+  // Hvor mange man skal dræbe for at vinde level
   int waveKillsNeeded = 20;
-
+  //arraylister der holder alle fjender og alle fjender der skal fjernes
   ArrayList<Enemy> allEnemys = new ArrayList<Enemy>();
+  //vi skal have remove ellers så opstår der modification error
   ArrayList<Enemy> allEnemysRemove = new ArrayList<Enemy>();
-
-  Level(Table hst, PApplet mainApp) {
+  //Vi har overloading af konstruktør.
+  Level(PApplet mainApp) {
     mainAppObj = mainApp;
-
-    highscoreTable = hst;
 
     skyImage = loadImage("skyRepeat.jpeg");
     pos = new PVector(0, 0);
-    //addEnemy();
   }
 
-  Level(Player p, Table hst, PApplet mainApp) {
+  Level(Player p, PApplet mainApp) {
     mainAppObj = mainApp;
-
-    highscoreTable = hst;
 
     currentPlayer = p;
     skyImage = loadImage("skyRepeat.jpeg");
     pos = new PVector(0, 0);
-    //addEnemy();
   }
 
   void display() {
@@ -46,28 +42,16 @@ class Level extends Component {
     allEnemys.removeAll(allEnemysRemove);
 
     for (Enemy e : allEnemys) {
-      //circle(e.pos.x, e.pos.y, 75);
-      //println(e.pos);
       e.display();
     }
 
-    //circle(0, 0, 10);
-
-    //translate(-pos.x, -pos.y);
-    //println(pos);
-    //println('-');
-    //circle(0, 0, 100);
     popMatrix();
-
+    //tilføjer grafisk tekst og score
     fill(0);
     rect((width/2), 55, width, 110);
     fill(255);
     text("SCORE: " + score, 20, 30);
     text("HIGHSCORE", width/2 - 55, 30);
-    //TableRow row = highscoreTable.getRow(0);
-
-    //text(row.getInt("hightscore"), width / 2, 335);
-
     text("HP: " + currentPlayer.hp, 20, 90);
     text("LEVEL: 1", width - 115, 90);
 
@@ -76,6 +60,7 @@ class Level extends Component {
     fill(255);
     text("WAVE: ", 25, height - 25);
     stroke(255);
+    //Laver procentbar over hvor mange man mangler at dræbe.
     for (int i = 0; i <= (waveKillsNeeded - enemysKilledProcent); i++) {
       rect(100 + (5 * i), height - 32, 5, 10);
     }
@@ -84,9 +69,6 @@ class Level extends Component {
 
   void update(Player p) {
     updateWorld(p);
-    //for (Enemy e : allEnemys) {
-    //  e.bulletCollion();
-    //}
 
     addEnemys();
 
@@ -132,7 +114,7 @@ class Level extends Component {
     pos.y -= a.y * p.planeSpd;
     popMatrix();
   }
-
+  //metode der sørger for at tilføje fjender hver 2 sekund.
   void addEnemys() {
     int maxEnemyes = int(level * 10);
 
@@ -141,12 +123,6 @@ class Level extends Component {
         Enemy e = new PropPlane(currentPlayer, this, mainAppObj);
         allEnemys.add(e);
       }
-    }
-  }
-
-  void levelCompletedCheck() {
-    if (enemysKilledProcent >= waveKillsNeeded) {
-      exit();
     }
   }
 }

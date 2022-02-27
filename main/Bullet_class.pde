@@ -20,7 +20,7 @@ class Bullet extends Component {
     pos.add(spd);
   }
 
-  // Sætter data fra vectore til pos og spd
+  // Sætter de værdier for position og hastighed fra spilleren.
   // Se i Player class i newBullet()
   void pSet(PVector loc_, PVector vel_) {
     pos.set(loc_);
@@ -41,7 +41,7 @@ class Bullet extends Component {
       return false;
     }
   }
-
+  //Spiller lyd når man skyder
   void shoot() {
     bulletSound.play();
   }
